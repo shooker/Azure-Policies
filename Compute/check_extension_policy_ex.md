@@ -1,4 +1,4 @@
-# Parameter Examples for [Audit if Extension is Not Installed](Compute/check_extension_policy.json)
+# Parameter Examples for [Audit if Extension is Not Installed](check_extension_policy.json)
 Specifying parameters for this policy assignment:
 
 ## Windows Example
