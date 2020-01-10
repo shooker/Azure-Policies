@@ -1,69 +1,77 @@
 {
-  "mode": "All",
-  "policyRule": {
-    "if": {
-      "allOf": [
-        {
-          "field": "type",
-          "equals": "Microsoft.Compute/virtualMachines"
+    "properties": {
+        "displayName": "Audit if extension is not installed",
+        "policyType": "Custom",
+        "description": "Audits VMs based on Operating System and Extension",
+        "metadata": {
+            "category": "Compute"
         },
-        {
-          "field": "Microsoft.Compute/imagePublisher",
-          "equals": "[parameters('imagePublisher')]"
-        },
-        {
-          "field": "Microsoft.Compute/imageOffer",
-          "equals": "[parameters('imageOffer')]"
-        }
-      ]
-    },
-    "then": {
-      "effect": "auditIfNotExists",
-      "details": {
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "existenceCondition": {
-          "allOf": [
-            {
-              "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
-              "equals": "[parameters('extensionPublisher')]"
+        "mode": "All",
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Compute/virtualMachines"
+                    },
+                    {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "[parameters('imagePublisher')]"
+                    },
+                    {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "equals": "[parameters('imageOffer')]"
+                    }
+                ]
             },
-            {
-              "field": "Microsoft.Compute/virtualMachines/extensions/type",
-              "equals": "[parameters('extensionType')]"
+            "then": {
+                "effect": "auditIfNotExists",
+                "details": {
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+                                "equals": "[parameters('extensionPublisher')]"
+                            },
+                            {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                                "equals": "[parameters('extensionType')]"
+                            }
+                        ]
+                    }
+                }
             }
-          ]
+        },
+        "parameters": {
+            "extensionPublisher": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Extension Publisher",
+                    "description": "The publisher of the extension"
+                }
+            },
+            "extensionType": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Extension Type",
+                    "description": "The type of the extension"
+                }
+            },
+            "imagePublisher": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Image Publisher",
+                    "description": "The Publisher of the OS Image"
+                }
+            },
+            "imageOffer": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Image Offer",
+                    "description": "The Offer of the OS"
+                }
+            }
         }
-      }
     }
-  },
-  "parameters": {
-    "extensionPublisher": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Extension Publisher",
-        "description": "The publisher of the extension"
-      }
-    },
-    "extensionType": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Extension Type",
-        "description": "The type of the extension"
-      }
-    },
-    "imagePublisher": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Image Publisher",
-        "description": "The Publisher of the OS Image"
-      }
-    },
-    "imageOffer": {
-      "type": "String",
-      "metadata": {
-        "displayName": "Image Offer",
-        "description": "The Offer of the OS"
-      }
-    }
-  }
 }
