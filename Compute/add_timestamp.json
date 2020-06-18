@@ -1,0 +1,38 @@
+{
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "in": [
+                        "Microsoft.Compute/virtualMachines",
+                        "Microsoft.Compute/virtualMachineScaleSets"
+                    ]
+                },
+                {
+                    "field": "[concat('tags[', parameters('timeTag'), ']')]",
+                    "exists": "false"
+                }
+            ]
+        },
+        "then": {
+            "effect": "append",
+            "details": [
+                {
+                    "field": "[concat('tags[', parameters('timeTag'), ']')]",
+                    "value": "[utcNow()]"
+                }
+            ]
+        }
+    },
+    "parameters": {
+        "timeTag": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Tag Name",
+                "description": "Name of the Timestamp Tag"
+            }
+        }
+    }
+}
